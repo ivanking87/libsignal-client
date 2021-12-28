@@ -91,6 +91,7 @@ fn get_sender_key(
         }
     }
 
+    /*
     let jump = (iteration - current_iteration) as usize;
     if jump > consts::MAX_FORWARD_JUMPS {
         log::error!(
@@ -103,6 +104,7 @@ fn get_sender_key(
             "message from too far into the future",
         ));
     }
+    */
 
     let mut sender_chain_key = sender_chain_key;
 
