@@ -557,9 +557,15 @@ impl SenderKeyDistributionMessage {
         chain_key: Vec<u8>,
         signing_key: PublicKey,
     ) -> Result<Self> {
-         let num = u32::from_be_bytes(Some(distribution_id.as_bytes()));
+
+            let allbytes = distribution_id.as_bytes();
+
+            let mut dst = [0u8; 4];
+
+            dst.clone_from_slice(&allbytes[0..4]);
+
         let proto_message = proto::wire::SenderKeyDistributionMessage {
-            distribution_uuid: Some(num),
+            distribution_uuid: Some(u32::from_be_bytes(dst)),
           /*  chain_id: Some(chain_id), */
             iteration: Some(iteration),
             chain_key: Some(chain_key.clone()),
