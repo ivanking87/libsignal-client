@@ -394,7 +394,7 @@ impl SenderKeyMessage {
         signature_key: &PrivateKey,
     ) -> Result<Self> {
 
-         let allbytes = Some(distribution_id.as_bytes());
+         let allbytes = distribution_id.as_bytes();
 
          let v = allbytes[0..4].try_into().unwrap();
 
