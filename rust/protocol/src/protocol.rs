@@ -395,10 +395,10 @@ impl SenderKeyMessage {
     ) -> Result<Self> {
 
          let allbytes = distribution_id.as_bytes().to_vec();
-         let first_byte = allbytes[0];
+
          let proto_message = proto::wire::SenderKeyMessage {
 
-             distribution_uuid: Some(u32::from_be_bytes(first_byte)),
+             distribution_uuid: Some(u32::from_be_bytes(allbytes)),
 
           /*  distribution_uuid: Some(distribution_id.as_bytes().to_vec()), */
           /*  chain_id: Some(chain_id), */
