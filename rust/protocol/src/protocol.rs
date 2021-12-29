@@ -393,9 +393,11 @@ impl SenderKeyMessage {
         csprng: &mut R,
         signature_key: &PrivateKey,
     ) -> Result<Self> {
+
+         let first_byte = Some(distribution_id).as_bytes().to_vec().into_iter().nth(0);
         let proto_message = proto::wire::SenderKeyMessage {
 
-             let first_byte = Some(distribution_id).as_bytes().to_vec().into_iter().nth(0);
+
              distribution_uuid: Some(u32::from_be_bytes(first_byte)),
 
           /*  distribution_uuid: Some(distribution_id.as_bytes().to_vec()), */
