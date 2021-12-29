@@ -396,11 +396,13 @@ impl SenderKeyMessage {
 
          let allbytes = distribution_id.as_bytes();
 
-         let v = allbytes[0..4].try_into().unwrap();
+         let mut dst = [0u8; 4];
+
+         dst.clone_from_slice(&allbytes[0..4]);
 
          let proto_message = proto::wire::SenderKeyMessage {
 
-             distribution_uuid: Some(u32::from_be_bytes(v)),
+             distribution_uuid: Some(u32::from_be_bytes(dst)),
 
           /*  distribution_uuid: Some(distribution_id.as_bytes().to_vec()), */
           /*  chain_id: Some(chain_id), */
