@@ -534,7 +534,7 @@ fn addUid(intval: u32) -> Option<Uuid> {
          i[0], i[1], i[2], i[3],
          i[0], i[1], i[2], i[3]
      ];
-     return Some(Uuid::from_bytes(arr).ok());
+     return Some(Uuid::from_bytes(arr));
 }
 
 #[derive(Debug, Clone)]
