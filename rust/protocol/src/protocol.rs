@@ -394,8 +394,10 @@ impl SenderKeyMessage {
         signature_key: &PrivateKey,
     ) -> Result<Self> {
         let proto_message = proto::wire::SenderKeyMessage {
-            distribution_uuid: Some(distribution_id.as_bytes().to_vec()),
-            chain_id: Some(chain_id),
+             distribution_uuid: Some(u32::from_be_bytes(distribution_id.as_bytes())),
+
+          /*  distribution_uuid: Some(distribution_id.as_bytes().to_vec()), */
+          /*  chain_id: Some(chain_id), */
             iteration: Some(iteration),
             ciphertext: Some(ciphertext.to_vec()),
         };
@@ -485,11 +487,12 @@ impl TryFrom<&[u8]> for SenderKeyMessage {
 
         let distribution_id = proto_structure
             .distribution_uuid
-            .and_then(|bytes| Uuid::from_slice(bytes.as_slice()).ok())
+          /*  .and_then(|bytes| Uuid::from_slice(bytes.as_slice()).ok()) */
+             .and_then(|intval| Uuid::from_slice(intval.to_be_bytes().as_slice()).ok())
             .ok_or(SignalProtocolError::InvalidProtobufEncoding)?;
-        let chain_id = proto_structure
+       /* let chain_id = proto_structure
             .chain_id
-            .ok_or(SignalProtocolError::InvalidProtobufEncoding)?;
+            .ok_or(SignalProtocolError::InvalidProtobufEncoding)?; */
         let iteration = proto_structure
             .iteration
             .ok_or(SignalProtocolError::InvalidProtobufEncoding)?;
@@ -529,9 +532,10 @@ impl SenderKeyDistributionMessage {
         chain_key: Vec<u8>,
         signing_key: PublicKey,
     ) -> Result<Self> {
+         let num = u32::from_be_bytes(Some(distribution_id.as_bytes()));
         let proto_message = proto::wire::SenderKeyDistributionMessage {
-            distribution_uuid: Some(distribution_id.as_bytes().to_vec()),
-            chain_id: Some(chain_id),
+            distribution_uuid: Some(num),
+          /*  chain_id: Some(chain_id), */
             iteration: Some(iteration),
             chain_key: Some(chain_key.clone()),
             signing_key: Some(signing_key.serialize().to_vec()),
@@ -619,11 +623,11 @@ impl TryFrom<&[u8]> for SenderKeyDistributionMessage {
 
         let distribution_id = proto_structure
             .distribution_uuid
-            .and_then(|bytes| Uuid::from_slice(bytes.as_slice()).ok())
+            .and_then(|intval| Uuid::from_slice(intval.to_be_bytes().as_slice()).ok())
             .ok_or(SignalProtocolError::InvalidProtobufEncoding)?;
-        let chain_id = proto_structure
+        /*let chain_id = proto_structure
             .chain_id
-            .ok_or(SignalProtocolError::InvalidProtobufEncoding)?;
+            .ok_or(SignalProtocolError::InvalidProtobufEncoding)?; */
         let iteration = proto_structure
             .iteration
             .ok_or(SignalProtocolError::InvalidProtobufEncoding)?;
