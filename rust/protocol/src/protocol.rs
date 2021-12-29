@@ -500,7 +500,7 @@ impl TryFrom<&[u8]> for SenderKeyMessage {
         let distribution_id = proto_structure
             .distribution_uuid
           /*  .and_then(|bytes| Uuid::from_slice(bytes.as_slice()).ok()) */
-             .and_then(|intval| addUid(intval).ok())
+             .and_then(|intval| addUid(intval))
             .ok_or(SignalProtocolError::InvalidProtobufEncoding)?;
        /* let chain_id = proto_structure
             .chain_id
@@ -529,7 +529,7 @@ impl TryFrom<&[u8]> for SenderKeyMessage {
 fn addUid(intval: u32) -> Uuid {
      let i = intval.to_be_bytes();
      let arr:[u8; 16] = [i[0], i[1], i[2], i[3], i[4]];
-     return Some(Uuid::from_bytes(arr]);
+     return Some(Uuid::from_bytes(arr]).ok();
 }
 
 #[derive(Debug, Clone)]
