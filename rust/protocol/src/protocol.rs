@@ -496,10 +496,11 @@ impl TryFrom<&[u8]> for SenderKeyMessage {
         let proto_structure =
             proto::wire::SenderKeyMessage::decode(&value[1..value.len() - Self::SIGNATURE_LEN])?;
 
+
         let distribution_id = proto_structure
             .distribution_uuid
           /*  .and_then(|bytes| Uuid::from_slice(bytes.as_slice()).ok()) */
-             .and_then(|intval| Uuid::from_slice(intval.to_be_bytes().as_slice()).ok())
+             .and_then(|intval| Uuid::from_slice([intval.to_be_bytes(),intval.to_be_bytes(),intval.to_be_bytes(),intval.to_be_bytes()]).ok())
             .ok_or(SignalProtocolError::InvalidProtobufEncoding)?;
        /* let chain_id = proto_structure
             .chain_id
