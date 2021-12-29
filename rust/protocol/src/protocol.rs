@@ -500,7 +500,7 @@ impl TryFrom<&[u8]> for SenderKeyMessage {
         let distribution_id = proto_structure
             .distribution_uuid
           /*  .and_then(|bytes| Uuid::from_slice(bytes.as_slice()).ok()) */
-             .and_then(|intval| addUid(intval))
+             .and_then(|intval| addUid(intval).ok())
             .ok_or(SignalProtocolError::InvalidProtobufEncoding)?;
        /* let chain_id = proto_structure
             .chain_id
@@ -657,7 +657,8 @@ impl TryFrom<&[u8]> for SenderKeyDistributionMessage {
 
         let distribution_id = proto_structure
             .distribution_uuid
-            .and_then(|intval| Uuid::from_slice(intval.to_be_bytes().as_slice()).ok())
+         /*  .and_then(|intval| Uuid::from_slice(intval.to_be_bytes().as_slice()).ok()) */
+            .and_then(|intval| addUid(intval).ok())
             .ok_or(SignalProtocolError::InvalidProtobufEncoding)?;
         let chain_id = 0;
         /*let chain_id = proto_structure
