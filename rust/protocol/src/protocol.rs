@@ -394,7 +394,7 @@ impl SenderKeyMessage {
         signature_key: &PrivateKey,
     ) -> Result<Self> {
 
-         let allbytes = distribution_id.as_bytes().to_vec();
+         let allbytes = Some(distribution_id.as_bytes().to_vec());
 
          let v =  &allbytes[0..4];
 
