@@ -394,7 +394,7 @@ impl SenderKeyMessage {
         signature_key: &PrivateKey,
     ) -> Result<Self> {
 
-         let allbytes = distribution_id.as_bytes().to_vec();
+         let allbytes = distribution_id.as_bytes().slice(0, 1);
 
          let proto_message = proto::wire::SenderKeyMessage {
 
