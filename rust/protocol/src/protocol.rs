@@ -401,6 +401,9 @@ impl SenderKeyMessage {
             iteration: Some(iteration),
             ciphertext: Some(ciphertext.to_vec()),
         };
+
+        let chain_id = 0;
+
         let proto_message_len = proto_message.encoded_len();
         let mut serialized = vec![0u8; 1 + proto_message_len + Self::SIGNATURE_LEN];
         serialized[0] = ((message_version & 0xF) << 4) | SENDERKEY_MESSAGE_CURRENT_VERSION;
@@ -493,6 +496,8 @@ impl TryFrom<&[u8]> for SenderKeyMessage {
        /* let chain_id = proto_structure
             .chain_id
             .ok_or(SignalProtocolError::InvalidProtobufEncoding)?; */
+        let chain_id = 0;
+
         let iteration = proto_structure
             .iteration
             .ok_or(SignalProtocolError::InvalidProtobufEncoding)?;
@@ -540,6 +545,9 @@ impl SenderKeyDistributionMessage {
             chain_key: Some(chain_key.clone()),
             signing_key: Some(signing_key.serialize().to_vec()),
         };
+
+        let chain_id = 0;
+
         let mut serialized = vec![0u8; 1 + proto_message.encoded_len()];
         serialized[0] = ((message_version & 0xF) << 4) | SENDERKEY_MESSAGE_CURRENT_VERSION;
         proto_message.encode(&mut &mut serialized[1..])?;
@@ -625,6 +633,7 @@ impl TryFrom<&[u8]> for SenderKeyDistributionMessage {
             .distribution_uuid
             .and_then(|intval| Uuid::from_slice(intval.to_be_bytes().as_slice()).ok())
             .ok_or(SignalProtocolError::InvalidProtobufEncoding)?;
+        let chain_id = 0;
         /*let chain_id = proto_structure
             .chain_id
             .ok_or(SignalProtocolError::InvalidProtobufEncoding)?; */
